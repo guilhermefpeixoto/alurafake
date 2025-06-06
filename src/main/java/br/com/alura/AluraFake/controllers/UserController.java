@@ -1,11 +1,13 @@
 package br.com.alura.AluraFake.controllers;
 
-import br.com.alura.AluraFake.dtos.ErrorItemDTO;
 import br.com.alura.AluraFake.dtos.NewUserDTO;
-import br.com.alura.AluraFake.dtos.UserListItemDTO;
+import br.com.alura.AluraFake.mappers.UserMapper;
+import br.com.alura.AluraFake.dtos.UserResponseDTO;
 import br.com.alura.AluraFake.models.User;
-import br.com.alura.AluraFake.repositories.UserRepository;
+import br.com.alura.AluraFake.services.UserService;
 import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -13,29 +15,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserService userService;
 
     @Transactional
-    @PostMapping("/user/new")
-    public ResponseEntity newStudent(@RequestBody @Valid NewUserDTO newUser) {
-        if(userRepository.existsByEmail(newUser.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("email", "Email já cadastrado no sistema"));
-        }
-        User user = newUser.toModel();
-        userRepository.save(user);
+    @PostMapping
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid NewUserDTO newUser) throws Exception {
+        User user = UserMapper.toEntity(newUser);
+        this.userService.createUser(user);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/user/all")
-    public List<UserListItemDTO> listAllUsers() {
-        return userRepository.findAll().stream().map(UserListItemDTO::new).toList();
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        List<User> users = this.userService.getAllUsers();
+
+        return ResponseEntity.status(HttpStatus.OK).body(users.stream().map(UserMapper::toDTO).toList());
     }
 
 }
