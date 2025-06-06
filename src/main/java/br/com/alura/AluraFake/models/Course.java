@@ -1,6 +1,5 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.models;
 
-import br.com.alura.AluraFake.user.User;
 import jakarta.persistence.*;
 import org.springframework.util.Assert;
 

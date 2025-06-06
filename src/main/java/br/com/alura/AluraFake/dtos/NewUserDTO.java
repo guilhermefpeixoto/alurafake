@@ -1,7 +1,10 @@
-package br.com.alura.AluraFake.user;
+package br.com.alura.AluraFake.dtos;
 
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
+
+import br.com.alura.AluraFake.models.Role;
+import br.com.alura.AluraFake.models.User;
 
 public class NewUserDTO {
 

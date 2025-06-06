@@ -2,6 +2,8 @@ package br.com.alura.AluraFake.util;
 
 import org.junit.jupiter.api.Test;
 
+import br.com.alura.AluraFake.utils.PasswordGeneration;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordGenerationTest {

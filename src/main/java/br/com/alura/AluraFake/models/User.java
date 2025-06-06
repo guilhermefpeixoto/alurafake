@@ -1,9 +1,10 @@
-package br.com.alura.AluraFake.user;
+package br.com.alura.AluraFake.models;
 
-import br.com.alura.AluraFake.util.PasswordGeneration;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+
+import br.com.alura.AluraFake.utils.PasswordGeneration;
 
 @Entity
 public class User {
