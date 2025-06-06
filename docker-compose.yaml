@@ -1,0 +1,11 @@
+services:
+  mysql:
+    container_name: alura-fake-db
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: alura-fake-db
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_USER: db-user
+    ports:
+      - '3306:3306'
