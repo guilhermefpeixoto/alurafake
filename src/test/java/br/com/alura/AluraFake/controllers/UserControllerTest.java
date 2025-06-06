@@ -1,12 +1,13 @@
-package br.com.alura.AluraFake.user;
+package br.com.alura.AluraFake.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.alura.AluraFake.controllers.UserController;
 import br.com.alura.AluraFake.dtos.NewUserDTO;
+import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
+import br.com.alura.AluraFake.mappers.UserMapper;
 import br.com.alura.AluraFake.models.Role;
 import br.com.alura.AluraFake.models.User;
-import br.com.alura.AluraFake.repositories.UserRepository;
+import br.com.alura.AluraFake.services.UserService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,68 +30,54 @@ class UserControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void newUser__should_return_bad_request_when_email_is_blank() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
-        newUserDTO.setEmail("");
-        newUserDTO.setName("Caio Bugorin");
-        newUserDTO.setRole(Role.STUDENT);
+        NewUserDTO newUserDTO = new NewUserDTO("Caio Bugorin", "", Role.STUDENT, null);
 
-        mockMvc.perform(post("/user/new")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newUserDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0].field").value("email"))
-                .andExpect(jsonPath("$[0].message").isNotEmpty());
+                .andExpect(jsonPath("$.statusCode").value("400"))
+                .andExpect(jsonPath("$.messages[0]").isNotEmpty());
     }
 
     @Test
     void newUser__should_return_bad_request_when_email_is_invalid() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
-        newUserDTO.setEmail("caio");
-        newUserDTO.setName("Caio Bugorin");
-        newUserDTO.setRole(Role.STUDENT);
+        NewUserDTO newUserDTO = new NewUserDTO("Caio Bugorin", "caio", Role.STUDENT, null);
 
-        mockMvc.perform(post("/user/new")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newUserDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$[0].field").value("email"))
-                .andExpect(jsonPath("$[0].message").isNotEmpty());
+                .andExpect(jsonPath("$.statusCode").value("400"))
+                .andExpect(jsonPath("$.messages[0]").isNotEmpty());
     }
 
     @Test
     void newUser__should_return_bad_request_when_email_already_exists() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
-        newUserDTO.setEmail("caio.bugorin@alura.com.br");
-        newUserDTO.setName("Caio Bugorin");
-        newUserDTO.setRole(Role.STUDENT);
+        NewUserDTO newUserDTO = new NewUserDTO("Caio Bugorin", "caio.bugorin@alura.com.br", Role.STUDENT, null);
 
-        when(userRepository.existsByEmail(newUserDTO.getEmail())).thenReturn(true);
+        doThrow(new EmailAlreadyRegisteredException("This email address is already registered.")).when(userService).createUser(UserMapper.toEntity(newUserDTO));
 
-        mockMvc.perform(post("/user/new")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newUserDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.field").value("email"))
-                .andExpect(jsonPath("$.message").value("Email já cadastrado no sistema"));
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(jsonPath("$.messages[0]").value("This email address is already registered."));
     }
 
     @Test
     void newUser__should_return_created_when_user_request_is_valid() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
-        newUserDTO.setEmail("caio.bugorin@alura.com.br");
-        newUserDTO.setName("Caio Bugorin");
-        newUserDTO.setRole(Role.STUDENT);
+        NewUserDTO newUserDTO = new NewUserDTO("Caio Bugorin", "caio.bugorin@alura.com.br", Role.STUDENT, null);
 
-        when(userRepository.existsByEmail(newUserDTO.getEmail())).thenReturn(false);
-
-        mockMvc.perform(post("/user/new")
+        mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newUserDTO)))
                 .andExpect(status().isCreated());
@@ -97,11 +85,11 @@ class UserControllerTest {
 
     @Test
     void listAllUsers__should_list_all_users() throws Exception {
-        User user1 = new User("User 1", "user1@test.com",Role.STUDENT);
-        User user2 = new User("User 2", "user2@test.com",Role.STUDENT);
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user1, user2));
+        User user1 = new User("User 1", "user1@test.com",Role.STUDENT, null);
+        User user2 = new User("User 2", "user2@test.com",Role.STUDENT, null);
+        when(userService.getAllUsers()).thenReturn(Arrays.asList(user1, user2));
 
-        mockMvc.perform(get("/user/all")
+        mockMvc.perform(get("/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("User 1"))

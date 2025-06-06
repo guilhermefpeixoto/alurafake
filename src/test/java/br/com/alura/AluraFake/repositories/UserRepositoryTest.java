@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.user;
+package br.com.alura.AluraFake.repositories;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import br.com.alura.AluraFake.models.Role;
 import br.com.alura.AluraFake.models.User;
-import br.com.alura.AluraFake.repositories.UserRepository;
 
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ class UserRepositoryTest {
 
     @Test
     void findByEmail__should_return_existis_user() {
-        User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT);
+        User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT, null);
         userRepository.save(caio);
 
         Optional<User> result = userRepository.findByEmail("caio@alura.com.br");
@@ -35,7 +34,7 @@ class UserRepositoryTest {
 
     @Test
     void existsByEmail__should_return_true_when_user_existis() {
-        User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT);
+        User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT, null);
         userRepository.save(caio);
 
         assertThat(userRepository.existsByEmail("caio@alura.com.br")).isTrue();
