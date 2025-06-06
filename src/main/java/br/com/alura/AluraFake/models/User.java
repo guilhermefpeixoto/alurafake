@@ -20,18 +20,13 @@ public class User {
     // Por questões didáticas, a senha será armazenada em texto plano.
     private String password;
 
-    @Deprecated
     public User() {}
 
     public User(String name, String email, Role role, String password) {
         this.name = name;
         this.role = role;
         this.email = email;
-        this.password = password;
-    }
-
-    public User(String name, String email, Role role) {
-        this(name, email, role, PasswordGeneration.generatePassword());
+        this.password = password == null ? PasswordGeneration.generatePassword() : password;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -42,12 +37,24 @@ public class User {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Role getRole() {
         return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public boolean isInstructor() {
@@ -56,5 +63,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
