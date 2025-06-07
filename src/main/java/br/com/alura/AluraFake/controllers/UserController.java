@@ -23,7 +23,7 @@ public class UserController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid NewUserDTO newUser) throws Exception {
+    public ResponseEntity<String> createUser(@RequestBody @Valid NewUserDTO newUser) throws Exception {
         User user = UserMapper.toEntity(newUser);
         this.userService.createUser(user);
 
