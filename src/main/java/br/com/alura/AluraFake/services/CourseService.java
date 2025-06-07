@@ -34,7 +34,7 @@ public class CourseService {
         User user = possibleUser.get();
 
         if (!user.isInstructor()) {
-            throw new UserNotInstructorException("This user is not a instructor.");
+            throw new UserNotInstructorException("This user is not an instructor.");
         }
 
         Course course = CourseMapper.toEntity(courseDTO, user);
