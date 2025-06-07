@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
+import br.com.alura.AluraFake.exceptions.UserNotFoundException;
+import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
 
 import java.util.List;
 
@@ -27,5 +29,19 @@ public class ValidationExceptionHandler {
         RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<RestErrorMessage> userNotFoundExceptionHandler(UserNotFoundException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("404", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(UserNotInstructorException.class)
+    public ResponseEntity<RestErrorMessage> userNotInstructorExceptionHandler(UserNotInstructorException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("403", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
     }
 }
