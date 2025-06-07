@@ -32,9 +32,9 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        List<User> users = this.userService.getAllUsers();
+        List<UserResponseDTO> users = this.userService.getAllUsers().stream().map(UserMapper::toDTO).toList();
 
-        return ResponseEntity.status(HttpStatus.OK).body(users.stream().map(UserMapper::toDTO).toList());
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
 }
