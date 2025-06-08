@@ -7,6 +7,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import br.com.alura.AluraFake.exceptions.ContinuousSequenceException;
+import br.com.alura.AluraFake.exceptions.CourseNotBuildingException;
+import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
+import br.com.alura.AluraFake.exceptions.DuplicateStatementException;
 import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
 import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
@@ -43,5 +47,33 @@ public class ValidationExceptionHandler {
         RestErrorMessage errorMessage = new RestErrorMessage("403", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<RestErrorMessage> courseNotFoundExceptionHandler(CourseNotFoundException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("404", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+    
+    @ExceptionHandler(CourseNotBuildingException.class)
+    public ResponseEntity<RestErrorMessage> courseNotBuildingExceptionHandler(CourseNotBuildingException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(DuplicateStatementException.class)
+    public ResponseEntity<RestErrorMessage> duplicateStatementExceptionHandler(DuplicateStatementException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(ContinuousSequenceException.class)
+    public ResponseEntity<RestErrorMessage> continuousSequenceExceptionHandler(ContinuousSequenceException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 }
