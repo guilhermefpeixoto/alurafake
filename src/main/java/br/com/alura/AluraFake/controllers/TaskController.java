@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.alura.AluraFake.dtos.NewMultipleChoiceDTO;
 import br.com.alura.AluraFake.dtos.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.TaskResponseDTO;
-import br.com.alura.AluraFake.models.Task;
 import br.com.alura.AluraFake.services.TaskService;
 import jakarta.validation.Valid;
 
@@ -41,8 +41,10 @@ public class TaskController {
 
     @Transactional
     @PostMapping("/multiplechoice")
-    public ResponseEntity<String> newMultipleChoice() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> newMultipleChoice(@RequestBody @Valid NewMultipleChoiceDTO newMultipleChoiceDTO) throws Exception {
+        this.taskService.createMultipleChoiceTask(newMultipleChoiceDTO);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/opentext/{courseId}")

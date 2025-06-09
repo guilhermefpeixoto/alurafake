@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.alura.AluraFake.dtos.NewMultipleChoiceDTO;
 import br.com.alura.AluraFake.dtos.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.TaskOptionDTO;
@@ -17,6 +18,7 @@ import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
 import br.com.alura.AluraFake.exceptions.DuplicateOptionException;
 import br.com.alura.AluraFake.exceptions.DuplicateStatementException;
 import br.com.alura.AluraFake.exceptions.WrongNumberOfCorrectOptionsException;
+import br.com.alura.AluraFake.exceptions.WrongNumberOfWrongOptionsException;
 import br.com.alura.AluraFake.mappers.TaskMapper;
 import br.com.alura.AluraFake.mappers.TaskOptionMapper;
 import br.com.alura.AluraFake.models.Course;
@@ -55,6 +57,19 @@ public class TaskService {
         task.setOptions(options);
         this.taskRepository.save(task);
 
+    }
+
+    public void createMultipleChoiceTask(NewMultipleChoiceDTO newMultipleChoiceDTO) throws Exception {
+        Course course = this.getValidatedCourse(newMultipleChoiceDTO.courseId());
+        this.validateStatement(newMultipleChoiceDTO.statement(), course.getId());
+        this.validateMultipleChoiceOptions(newMultipleChoiceDTO.statement(), newMultipleChoiceDTO.options());
+        this.validateTaskOrder(newMultipleChoiceDTO.order(), course);
+
+        Task task = TaskMapper.toEntity(newMultipleChoiceDTO, course);
+        List<TaskOption> options = TaskOptionMapper.toEntities(newMultipleChoiceDTO.options(), task);
+        task.setOptions(options);
+        this.taskRepository.save(task);
+        
     }
 
     public List<TaskResponseDTO> getAllTasks(Long courseId) {
@@ -143,4 +158,28 @@ public class TaskService {
             throw new DuplicateStatementException("There can be no options identical to the statement.");
         }
     }
+
+    private void validateMultipleChoiceOptions(String statement, List<TaskOptionDTO> options) throws Exception {
+        validateMultipleCorrectOptions(options);
+        validateAtLeastOneWrongOption(options);
+        validateOptionUniqueness(options);
+        validateOptionsStatement(statement, options);
+    }
+
+    private void validateMultipleCorrectOptions(List<TaskOptionDTO> options) throws Exception {
+        long correctOptions = options.stream().filter(TaskOptionDTO::isCorrect).count();
+
+        if (correctOptions < 2) {
+            throw new WrongNumberOfCorrectOptionsException("Must have at least 2 correct options.");
+        }
+    }
+
+    private void validateAtLeastOneWrongOption(List<TaskOptionDTO> options) throws WrongNumberOfWrongOptionsException {
+        long wrongOptions = options.stream().filter(taskOption -> !taskOption.isCorrect()).count();
+
+        if (wrongOptions == 0) {
+            throw new WrongNumberOfWrongOptionsException("There must be at least 1 wrong option.");
+        }
+    }
+
 }

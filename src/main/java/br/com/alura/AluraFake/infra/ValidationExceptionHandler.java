@@ -16,6 +16,7 @@ import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
 import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
 import br.com.alura.AluraFake.exceptions.WrongNumberOfCorrectOptionsException;
+import br.com.alura.AluraFake.exceptions.WrongNumberOfWrongOptionsException;
 
 import java.util.List;
 
@@ -90,6 +91,14 @@ public class ValidationExceptionHandler {
     @ExceptionHandler(WrongNumberOfCorrectOptionsException.class)
     public ResponseEntity<RestErrorMessage> wrongNumberOfCorrectOptionsExceptionHandler(
             WrongNumberOfCorrectOptionsException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(WrongNumberOfWrongOptionsException.class)
+    public ResponseEntity<RestErrorMessage> wrongNumberOfWrongOptionsExceptionHandler(
+            WrongNumberOfWrongOptionsException exception) {
         RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);

@@ -2,6 +2,7 @@ package br.com.alura.AluraFake.mappers;
 
 import java.util.List;
 
+import br.com.alura.AluraFake.dtos.NewMultipleChoiceDTO;
 import br.com.alura.AluraFake.dtos.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.TaskOptionResponseDTO;
@@ -21,6 +22,12 @@ public class TaskMapper {
         Task singleChoinceTask = new Task(singleChoiceTaskDTO.statement(), singleChoiceTaskDTO.order(), Type.SINGLE_CHOICE, course);
 
         return singleChoinceTask;
+    }
+
+    public static Task toEntity(NewMultipleChoiceDTO multipleChoiceDTO, Course course) {
+        Task multipleChoiceTask = new Task(multipleChoiceDTO.statement(), multipleChoiceDTO.order(), Type.MULTIPLE_CHOICE, course);
+
+        return multipleChoiceTask;
     }
 
     public static TaskResponseDTO toDTO(Task task, List<TaskOptionResponseDTO> options) {
