@@ -1,7 +1,7 @@
 package br.com.alura.AluraFake.controllers;
 
-import br.com.alura.AluraFake.dtos.CourseResponseDTO;
-import br.com.alura.AluraFake.dtos.NewCourseDTO;
+import br.com.alura.AluraFake.dtos.courses.CourseResponseDTO;
+import br.com.alura.AluraFake.dtos.courses.NewCourseDTO;
 import br.com.alura.AluraFake.mappers.CourseMapper;
 import br.com.alura.AluraFake.services.CourseService;
 import jakarta.validation.Valid;
@@ -21,7 +21,7 @@ public class CourseController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<String> createCourse(@Valid @RequestBody NewCourseDTO newCourse) throws Exception {
+    public ResponseEntity<String> createCourse(@Valid @RequestBody NewCourseDTO newCourse) {
         this.courseService.createCourse(newCourse);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -36,7 +36,7 @@ public class CourseController {
 
     @Transactional
     @PostMapping("/{id}/publish")
-    public ResponseEntity<String> publishCourse(@PathVariable("id") Long courseId) throws Exception {
+    public ResponseEntity<String> publishCourse(@PathVariable("id") Long courseId) {
         this.courseService.publishCourse(courseId);
 
         return ResponseEntity.status(HttpStatus.OK).build();

@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.alura.AluraFake.models.Course;
 
-public interface CourseRepository extends JpaRepository<Course, Long>{
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
 }

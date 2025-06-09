@@ -20,7 +20,8 @@ public class User {
     // Por questões didáticas, a senha será armazenada em texto plano.
     private String password;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String name, String email, Role role, String password) {
         this.name = name;

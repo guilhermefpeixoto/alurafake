@@ -2,7 +2,7 @@ package br.com.alura.AluraFake.utils;
 
 import java.util.Random;
 
-public class PasswordGeneration{
+public class PasswordGeneration {
 
     public static String generatePassword() {
         Random random = new Random();

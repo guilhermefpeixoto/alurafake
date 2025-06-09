@@ -8,13 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.alura.AluraFake.dtos.NewMultipleChoiceDTO;
-import br.com.alura.AluraFake.dtos.NewOpenTextTaskDTO;
-import br.com.alura.AluraFake.dtos.NewSingleChoiceTaskDTO;
-import br.com.alura.AluraFake.dtos.TaskResponseDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewOpenTextTaskDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewSingleChoiceTaskDTO;
+import br.com.alura.AluraFake.dtos.tasks.TaskResponseDTO;
 import br.com.alura.AluraFake.services.TaskService;
 import jakarta.validation.Valid;
-
 
 @RestController
 @RequestMapping("/task/new")
@@ -25,7 +24,7 @@ public class TaskController {
 
     @Transactional
     @PostMapping("/opentext")
-    public ResponseEntity<String> createOpenTextExercise(@RequestBody @Valid NewOpenTextTaskDTO newOpenTextTaskDTO) throws Exception {
+    public ResponseEntity<String> createOpenTextExercise(@RequestBody @Valid NewOpenTextTaskDTO newOpenTextTaskDTO) {
         this.taskService.createOpenTextExercise(newOpenTextTaskDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -33,17 +32,17 @@ public class TaskController {
 
     @Transactional
     @PostMapping("/singlechoice")
-    public ResponseEntity<String> newSingleChoice(@RequestBody @Valid NewSingleChoiceTaskDTO newSingleChoiceTaskDTO) throws Exception {
+    public ResponseEntity<String> newSingleChoice(@RequestBody @Valid NewSingleChoiceTaskDTO newSingleChoiceTaskDTO) {
         this.taskService.createSingleChoiceTask(newSingleChoiceTaskDTO);
-        
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Transactional
     @PostMapping("/multiplechoice")
-    public ResponseEntity<String> newMultipleChoice(@RequestBody @Valid NewMultipleChoiceDTO newMultipleChoiceDTO) throws Exception {
+    public ResponseEntity<String> newMultipleChoice(@RequestBody @Valid NewMultipleChoiceDTO newMultipleChoiceDTO) {
         this.taskService.createMultipleChoiceTask(newMultipleChoiceDTO);
-        
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -53,6 +52,5 @@ public class TaskController {
 
         return ResponseEntity.ok().body(allTasks);
     }
-    
 
 }

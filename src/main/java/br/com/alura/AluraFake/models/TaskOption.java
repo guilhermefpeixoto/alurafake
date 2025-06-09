@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "Task_Option")
 public class TaskOption {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +24,8 @@ public class TaskOption {
     @ManyToOne
     private Task task;
 
-    public TaskOption(){}
+    public TaskOption() {
+    }
 
     public TaskOption(String option, boolean isCorrect, Task task) {
         this.option = option;

@@ -1,7 +1,7 @@
 package br.com.alura.AluraFake.mappers;
 
-import br.com.alura.AluraFake.dtos.NewUserDTO;
-import br.com.alura.AluraFake.dtos.UserResponseDTO;
+import br.com.alura.AluraFake.dtos.users.NewUserDTO;
+import br.com.alura.AluraFake.dtos.users.UserResponseDTO;
 import br.com.alura.AluraFake.models.User;
 
 public class UserMapper {
@@ -14,7 +14,7 @@ public class UserMapper {
 
     public static UserResponseDTO toDTO(User user) {
         UserResponseDTO userDTO = new UserResponseDTO(user.getName(), user.getEmail(), user.getRole());
-        
+
         return userDTO;
     }
 }

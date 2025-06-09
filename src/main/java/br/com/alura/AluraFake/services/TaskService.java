@@ -7,11 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.alura.AluraFake.dtos.NewMultipleChoiceDTO;
-import br.com.alura.AluraFake.dtos.NewOpenTextTaskDTO;
-import br.com.alura.AluraFake.dtos.NewSingleChoiceTaskDTO;
-import br.com.alura.AluraFake.dtos.TaskOptionDTO;
-import br.com.alura.AluraFake.dtos.TaskResponseDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewOpenTextTaskDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewSingleChoiceTaskDTO;
+import br.com.alura.AluraFake.dtos.tasks.TaskOptionDTO;
+import br.com.alura.AluraFake.dtos.tasks.TaskResponseDTO;
 import br.com.alura.AluraFake.exceptions.ContinuousSequenceException;
 import br.com.alura.AluraFake.exceptions.CourseNotBuildingException;
 import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
@@ -37,7 +37,7 @@ public class TaskService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public void createOpenTextExercise(NewOpenTextTaskDTO newOpenTextTaskDTO) throws Exception {
+    public void createOpenTextExercise(NewOpenTextTaskDTO newOpenTextTaskDTO) {
         Course course = this.getValidatedCourse(newOpenTextTaskDTO.courseId());
         this.validateStatement(newOpenTextTaskDTO.statement(), course.getId());
         this.validateTaskOrder(newOpenTextTaskDTO.order(), course);
@@ -46,7 +46,7 @@ public class TaskService {
         this.taskRepository.save(task);
     }
 
-    public void createSingleChoiceTask(NewSingleChoiceTaskDTO newSingleChoiceTaskDTO) throws Exception {
+    public void createSingleChoiceTask(NewSingleChoiceTaskDTO newSingleChoiceTaskDTO) {
         Course course = this.getValidatedCourse(newSingleChoiceTaskDTO.courseId());
         this.validateStatement(newSingleChoiceTaskDTO.statement(), course.getId());
         this.validateSingleChoiceOptions(newSingleChoiceTaskDTO.statement(), newSingleChoiceTaskDTO.options());
@@ -59,7 +59,7 @@ public class TaskService {
 
     }
 
-    public void createMultipleChoiceTask(NewMultipleChoiceDTO newMultipleChoiceDTO) throws Exception {
+    public void createMultipleChoiceTask(NewMultipleChoiceDTO newMultipleChoiceDTO) {
         Course course = this.getValidatedCourse(newMultipleChoiceDTO.courseId());
         this.validateStatement(newMultipleChoiceDTO.statement(), course.getId());
         this.validateMultipleChoiceOptions(newMultipleChoiceDTO.statement(), newMultipleChoiceDTO.options());
@@ -69,7 +69,7 @@ public class TaskService {
         List<TaskOption> options = TaskOptionMapper.toEntities(newMultipleChoiceDTO.options(), task);
         task.setOptions(options);
         this.taskRepository.save(task);
-        
+
     }
 
     public List<TaskResponseDTO> getAllTasks(Long courseId) {
@@ -83,7 +83,7 @@ public class TaskService {
         return taskResponseDTOs;
     }
 
-    private Course getValidatedCourse(Long courseId) throws Exception {
+    private Course getValidatedCourse(Long courseId) {
         Optional<Course> possibleCourse = this.courseRepository.findById(courseId);
 
         if (possibleCourse.isEmpty()) {
@@ -99,13 +99,13 @@ public class TaskService {
         return course;
     }
 
-    private void validateStatement(String statement, Long courseId) throws Exception {
+    private void validateStatement(String statement, Long courseId) {
         if (taskRepository.existsByStatementAndCourseId(statement, courseId)) {
             throw new DuplicateStatementException("There is already a task with this statement.");
         }
     }
 
-    private void validateTaskOrder(Integer order, Course course) throws Exception {
+    private void validateTaskOrder(Integer order, Course course) {
         List<Task> tasks = taskRepository.findByCourseId(course.getId());
 
         if (order > tasks.size() + 1) {
@@ -126,13 +126,13 @@ public class TaskService {
         taskRepository.saveAll(tasksToUpdate);
     }
 
-    private void validateSingleChoiceOptions(String statement, List<TaskOptionDTO> options) throws Exception {
+    private void validateSingleChoiceOptions(String statement, List<TaskOptionDTO> options) {
         validateSingleCorrectOption(options);
         validateOptionUniqueness(options);
         validateOptionsStatement(statement, options);
     }
 
-    private void validateSingleCorrectOption(List<TaskOptionDTO> options) throws Exception {
+    private void validateSingleCorrectOption(List<TaskOptionDTO> options) {
         long correctOptions = options.stream().filter(TaskOptionDTO::isCorrect).count();
 
         if (correctOptions != 1) {
@@ -140,7 +140,7 @@ public class TaskService {
         }
     }
 
-    private void validateOptionUniqueness(List<TaskOptionDTO> options) throws Exception {
+    private void validateOptionUniqueness(List<TaskOptionDTO> options) {
         boolean hasDuplicateOption = options.stream()
                 .map(taskOption -> taskOption.option().toLowerCase())
                 .distinct().count() < options.size();
@@ -150,7 +150,7 @@ public class TaskService {
         }
     }
 
-    private void validateOptionsStatement(String statement, List<TaskOptionDTO> options) throws Exception {
+    private void validateOptionsStatement(String statement, List<TaskOptionDTO> options) {
         boolean hasOptionEqualStatement = options.stream()
                 .anyMatch(opt -> opt.option().toLowerCase().equals(statement.toLowerCase()));
 
@@ -159,14 +159,14 @@ public class TaskService {
         }
     }
 
-    private void validateMultipleChoiceOptions(String statement, List<TaskOptionDTO> options) throws Exception {
+    private void validateMultipleChoiceOptions(String statement, List<TaskOptionDTO> options) {
         validateMultipleCorrectOptions(options);
         validateAtLeastOneWrongOption(options);
         validateOptionUniqueness(options);
         validateOptionsStatement(statement, options);
     }
 
-    private void validateMultipleCorrectOptions(List<TaskOptionDTO> options) throws Exception {
+    private void validateMultipleCorrectOptions(List<TaskOptionDTO> options) {
         long correctOptions = options.stream().filter(TaskOptionDTO::isCorrect).count();
 
         if (correctOptions < 2) {
@@ -174,7 +174,7 @@ public class TaskService {
         }
     }
 
-    private void validateAtLeastOneWrongOption(List<TaskOptionDTO> options) throws WrongNumberOfWrongOptionsException {
+    private void validateAtLeastOneWrongOption(List<TaskOptionDTO> options) {
         long wrongOptions = options.stream().filter(taskOption -> !taskOption.isCorrect()).count();
 
         if (wrongOptions == 0) {

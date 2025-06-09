@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class Task {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,8 +31,9 @@ public class Task {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskOption> options;
 
-    public Task() {}
-    
+    public Task() {
+    }
+
     public Task(String statement, Integer order, Type type, Course course) {
         this.statement = statement;
         this.order = order;

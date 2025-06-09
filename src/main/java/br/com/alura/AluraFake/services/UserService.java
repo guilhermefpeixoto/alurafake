@@ -14,7 +14,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createUser(User user) throws Exception {
+    public void createUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyRegisteredException("This email address is already registered.");
         }
@@ -29,5 +29,5 @@ public class UserService {
     private void saveUser(User user) {
         this.userRepository.save(user);
     }
-    
+
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.alura.AluraFake.dtos.NewCourseDTO;
+import br.com.alura.AluraFake.dtos.courses.NewCourseDTO;
 import br.com.alura.AluraFake.exceptions.CourseMissingTaskTypeException;
 import br.com.alura.AluraFake.exceptions.CourseNotBuildingException;
 import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
@@ -35,8 +35,7 @@ public class CourseService {
     @Autowired
     private UserRepository userRepository;
 
-
-    public void createCourse(NewCourseDTO courseDTO) throws Exception {
+    public void createCourse(NewCourseDTO courseDTO) {
         Optional<User> possibleUser = this.userRepository.findByEmail(courseDTO.emailInstructor());
 
         if (possibleUser.isEmpty()) {
@@ -57,7 +56,7 @@ public class CourseService {
         return this.courseRepository.findAll();
     }
 
-    public void publishCourse(Long courseId) throws Exception {
+    public void publishCourse(Long courseId) {
         Course course = this.getValidatedCourse(courseId);
 
         List<Task> courseTasks = this.taskRepository.findByCourseId(course.getId());
@@ -65,7 +64,7 @@ public class CourseService {
         this.validateTasks(courseTasks);
         course.setStatus(Status.PUBLISHED);
         course.setPublishedAt(LocalDateTime.now());
-        
+
         this.courseRepository.save(course);
 
     }
@@ -74,7 +73,7 @@ public class CourseService {
         this.courseRepository.save(course);
     }
 
-    private Course getValidatedCourse(Long courseId) throws Exception {
+    private Course getValidatedCourse(Long courseId) {
         Optional<Course> possibleCourse = this.courseRepository.findById(courseId);
 
         if (possibleCourse.isEmpty()) {
@@ -90,14 +89,15 @@ public class CourseService {
         return course;
     }
 
-    private void validateTasks(List<Task> tasks) throws CourseMissingTaskTypeException {
+    private void validateTasks(List<Task> tasks) {
         boolean hasOpenTextTask = tasks.stream().anyMatch(task -> task.getType().equals(Type.OPEN_TEXT));
         boolean hasSingleChoiceTask = tasks.stream().anyMatch(task -> task.getType().equals(Type.SINGLE_CHOICE));
         boolean hasMultipleChoiceTask = tasks.stream().anyMatch(task -> task.getType().equals(Type.MULTIPLE_CHOICE));
 
         if (!hasOpenTextTask || !hasSingleChoiceTask || !hasMultipleChoiceTask) {
-            throw new CourseMissingTaskTypeException("A course can only be published if there is at least one task of each type.");
+            throw new CourseMissingTaskTypeException(
+                    "A course can only be published if there is at least one task of each type.");
         }
     }
-    
+
 }

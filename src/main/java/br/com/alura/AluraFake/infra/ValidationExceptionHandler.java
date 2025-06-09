@@ -106,7 +106,8 @@ public class ValidationExceptionHandler {
     }
 
     @ExceptionHandler(CourseMissingTaskTypeException.class)
-    public ResponseEntity<RestErrorMessage> courseMissingTaskTypeExceptionHandler(CourseMissingTaskTypeException exception) {
+    public ResponseEntity<RestErrorMessage> courseMissingTaskTypeExceptionHandler(
+            CourseMissingTaskTypeException exception) {
         RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
