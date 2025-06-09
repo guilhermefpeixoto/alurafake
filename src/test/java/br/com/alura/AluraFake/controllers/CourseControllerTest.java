@@ -80,7 +80,7 @@ class CourseControllerTest {
 
     @Test
     void listAllCourses__should_list_all_courses() throws Exception {
-        User paulo = new User("Paulo", "paulo@alua.com.br", Role.INSTRUCTOR, null);
+        User paulo = new User("Paulo", "paulo@alua.com.br", Role.INSTRUCTOR);
 
         Course java = new Course("Java", "Curso de java", paulo);
         Course hibernate = new Course("Hibernate", "Curso de hibernate", paulo);

@@ -27,7 +27,7 @@ class UserServiceTest {
 
     @Test
     void createUser_should_throw_exception_when_email_exists() {
-        User user = new User("Caio", "caio@alura.com.br", Role.STUDENT, null);
+        User user = new User("Caio", "caio@alura.com.br", Role.STUDENT);
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
 
         EmailAlreadyRegisteredException exception = assertThrows(
@@ -40,7 +40,7 @@ class UserServiceTest {
 
     @Test
     void createUser_should_save_user_when_email_is_unique() throws Exception {
-        User user = new User("Caio", "caio@alura.com.br", Role.STUDENT, null);
+        User user = new User("Caio", "caio@alura.com.br", Role.STUDENT);
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
 
         userService.createUser(user);
@@ -61,8 +61,8 @@ class UserServiceTest {
     @Test
     void getAllUsers__should_return_user_list_when_users_exist() {
         List<User> expectedUsers = List.of(
-                new User("User 1", "user1@test.com", Role.STUDENT, null),
-                new User("User 2", "user2@test.com", Role.STUDENT, null));
+                new User("User 1", "user1@test.com", Role.STUDENT),
+                new User("User 2", "user2@test.com", Role.STUDENT));
 
         when(userRepository.findAll()).thenReturn(expectedUsers);
 

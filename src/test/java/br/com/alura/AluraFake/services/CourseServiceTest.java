@@ -51,7 +51,7 @@ class CourseServiceTest {
     @Test
     void createCourse_should_throw_UserNotInstructorException_when_user_is_not_instructor() {
         NewCourseDTO courseDTO = new NewCourseDTO("Java", "Description", "student@alura.com.br");
-        User student = new User("Aluno", "aluno@alura.com.br", Role.STUDENT, null);
+        User student = new User("Aluno", "aluno@alura.com.br", Role.STUDENT);
 
         when(userRepository.findByEmail(courseDTO.emailInstructor())).thenReturn(Optional.of(student));
 
@@ -66,7 +66,7 @@ class CourseServiceTest {
     @Test
     void createCourse_should_save_course_when_user_is_instructor() throws Exception {
         NewCourseDTO courseDTO = new NewCourseDTO("Java", "Description", "instructor@alura.com.br");
-        User instructor = new User("Instructor", "instructor@alura.com.br", Role.INSTRUCTOR, null);
+        User instructor = new User("Instructor", "instructor@alura.com.br", Role.INSTRUCTOR);
 
         when(userRepository.findByEmail(courseDTO.emailInstructor())).thenReturn(Optional.of(instructor));
 
@@ -87,7 +87,7 @@ class CourseServiceTest {
 
     @Test
     void getAllCourses_should_return_course_list_when_courses_exist() {
-        User instructor = new User("Instructor", "instructor@alura.com.br", Role.INSTRUCTOR, null);
+        User instructor = new User("Instructor", "instructor@alura.com.br", Role.INSTRUCTOR);
         Course course1 = new Course("Java", "Description", instructor);
         Course course2 = new Course("Spring Boot", "Description", instructor);
 

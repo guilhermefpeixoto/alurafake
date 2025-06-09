@@ -23,11 +23,18 @@ public class User {
     public User() {
     }
 
+    public User(String name, String email, Role role) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.password = PasswordGeneration.generatePassword();
+    }
+
     public User(String name, String email, Role role, String password) {
         this.name = name;
         this.role = role;
         this.email = email;
-        this.password = password == null ? PasswordGeneration.generatePassword() : password;
+        this.password = password;
     }
 
     public LocalDateTime getCreatedAt() {
