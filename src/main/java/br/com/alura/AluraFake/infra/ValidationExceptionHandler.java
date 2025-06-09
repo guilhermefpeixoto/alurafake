@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import br.com.alura.AluraFake.exceptions.ContinuousSequenceException;
 import br.com.alura.AluraFake.exceptions.CourseNotBuildingException;
 import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
+import br.com.alura.AluraFake.exceptions.DuplicateOptionException;
 import br.com.alura.AluraFake.exceptions.DuplicateStatementException;
 import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
 import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
+import br.com.alura.AluraFake.exceptions.WrongNumberOfCorrectOptionsException;
 
 import java.util.List;
 
@@ -22,7 +24,8 @@ public class ValidationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestErrorMessage> methodArgumentNotValidHandler(MethodArgumentNotValidException exception) {
-        List<String> errors = exception.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+        List<String> errors = exception.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage)
+                .toList();
         RestErrorMessage errorMessage = new RestErrorMessage("400", errors);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
@@ -55,7 +58,7 @@ public class ValidationExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
-    
+
     @ExceptionHandler(CourseNotBuildingException.class)
     public ResponseEntity<RestErrorMessage> courseNotBuildingExceptionHandler(CourseNotBuildingException exception) {
         RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
@@ -75,5 +78,20 @@ public class ValidationExceptionHandler {
         RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(DuplicateOptionException.class)
+    public ResponseEntity<RestErrorMessage> duplicateOptionExceptionHandler(DuplicateOptionException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(WrongNumberOfCorrectOptionsException.class)
+    public ResponseEntity<RestErrorMessage> wrongNumberOfCorrectOptionsExceptionHandler(
+            WrongNumberOfCorrectOptionsException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 }
