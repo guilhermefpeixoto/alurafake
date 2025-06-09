@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.alura.AluraFake.exceptions.ContinuousSequenceException;
+import br.com.alura.AluraFake.exceptions.CourseMissingTaskTypeException;
 import br.com.alura.AluraFake.exceptions.CourseNotBuildingException;
 import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
 import br.com.alura.AluraFake.exceptions.DuplicateOptionException;
@@ -99,6 +100,13 @@ public class ValidationExceptionHandler {
     @ExceptionHandler(WrongNumberOfWrongOptionsException.class)
     public ResponseEntity<RestErrorMessage> wrongNumberOfWrongOptionsExceptionHandler(
             WrongNumberOfWrongOptionsException exception) {
+        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(CourseMissingTaskTypeException.class)
+    public ResponseEntity<RestErrorMessage> courseMissingTaskTypeExceptionHandler(CourseMissingTaskTypeException exception) {
         RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);

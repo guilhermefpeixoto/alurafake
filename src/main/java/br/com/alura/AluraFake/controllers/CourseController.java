@@ -36,8 +36,10 @@ public class CourseController {
 
     @Transactional
     @PostMapping("/{id}/publish")
-    public ResponseEntity createCourse(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> publishCourse(@PathVariable("id") Long courseId) throws Exception {
+        this.courseService.publishCourse(courseId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
