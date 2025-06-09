@@ -99,7 +99,7 @@ class TaskServiceTest {
         course.setStatus(Status.BUILDING);
 
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(taskRepository.findByCourseId(course.getId())).thenReturn(List.of(
+        when(taskRepository.findByCourseIdOrderByOrderAsc(course.getId())).thenReturn(List.of(
                 createTask(1), createTask(2)));
 
         ContinuousSequenceException exception = assertThrows(
@@ -121,7 +121,7 @@ class TaskServiceTest {
         Task task3 = createTask(3);
 
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(taskRepository.findByCourseId(course.getId())).thenReturn(List.of(task1, task2, task3));
+        when(taskRepository.findByCourseIdOrderByOrderAsc(course.getId())).thenReturn(List.of(task1, task2, task3));
         when(taskRepository.save(any(Task.class))).thenReturn(new Task());
 
         taskService.createOpenTextExercise(dto);
@@ -139,7 +139,7 @@ class TaskServiceTest {
         course.setStatus(Status.BUILDING);
 
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(taskRepository.findByCourseId(course.getId())).thenReturn(Arrays.asList(
+        when(taskRepository.findByCourseIdOrderByOrderAsc(course.getId())).thenReturn(Arrays.asList(
                 createTask(1), createTask(2), createTask(3)));
         when(taskRepository.save(any(Task.class))).thenReturn(new Task());
 
@@ -156,7 +156,7 @@ class TaskServiceTest {
         course.setStatus(Status.BUILDING);
 
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(taskRepository.findByCourseId(course.getId())).thenReturn(Collections.emptyList());
+        when(taskRepository.findByCourseIdOrderByOrderAsc(course.getId())).thenReturn(Collections.emptyList());
 
         taskService.createOpenTextExercise(dto);
 
@@ -277,7 +277,7 @@ class TaskServiceTest {
         Task task2 = createTask(2);
 
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(taskRepository.findByCourseId(course.getId())).thenReturn(List.of(task1, task2));
+        when(taskRepository.findByCourseIdOrderByOrderAsc(course.getId())).thenReturn(List.of(task1, task2));
         when(taskRepository.save(any())).thenReturn(new Task());
 
         taskService.createSingleChoiceTask(dto);
@@ -362,7 +362,7 @@ class TaskServiceTest {
         Task task2 = createTask(2);
 
         when(courseRepository.findById(1L)).thenReturn(Optional.of(course));
-        when(taskRepository.findByCourseId(course.getId())).thenReturn(List.of(task1, task2));
+        when(taskRepository.findByCourseIdOrderByOrderAsc(course.getId())).thenReturn(List.of(task1, task2));
         when(taskRepository.save(any())).thenReturn(new Task());
 
         taskService.createSingleChoiceTask(dto);

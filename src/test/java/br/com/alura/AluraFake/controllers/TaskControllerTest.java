@@ -4,29 +4,26 @@ import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.TaskOptionDTO;
-import br.com.alura.AluraFake.exceptions.ContinuousSequenceException;
-import br.com.alura.AluraFake.exceptions.CourseNotBuildingException;
-import br.com.alura.AluraFake.exceptions.CourseNotFoundException;
-import br.com.alura.AluraFake.exceptions.DuplicateOptionException;
-import br.com.alura.AluraFake.exceptions.DuplicateStatementException;
-import br.com.alura.AluraFake.exceptions.WrongNumberOfCorrectOptionsException;
-import br.com.alura.AluraFake.exceptions.WrongNumberOfWrongOptionsException;
+import br.com.alura.AluraFake.exceptions.*;
 import br.com.alura.AluraFake.services.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.List;
-
 @WebMvcTest(TaskController.class)
+@Import(br.com.alura.AluraFake.infra.SecurityConfig.class)
 class TaskControllerTest {
 
     @Autowired
@@ -39,6 +36,7 @@ class TaskControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createOpenTextExercise_should_return_NotFound_when_course_not_found() throws Exception {
         NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Pergunta válida", 1, 1L);
 
@@ -54,6 +52,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createOpenTextExercise_should_return_BadRequest_when_course_not_building() throws Exception {
         NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Pergunta válida", 1, 1L);
 
@@ -69,6 +68,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createOpenTextExercise_should_return_Conflict_when_duplicate_statement() throws Exception {
         NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Pergunta duplicada", 1, 1L);
 
@@ -84,6 +84,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createOpenTextExercise_should_return_BadRequest_when_invalid_order() throws Exception {
         NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Pergunta válida", 10, 1L);
 
@@ -99,6 +100,28 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "STUDENT")
+    void createOpenTextExercise_should_return_Forbidden_for_student() throws Exception {
+        NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Pergunta válida", 1, 1L);
+
+        mockMvc.perform(post("/task/new/opentext")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void createOpenTextExercise_should_return_Unauthorized_without_authentication() throws Exception {
+        NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Pergunta válida", 1, 1L);
+
+        mockMvc.perform(post("/task/new/opentext")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createOpenTextExercise_should_return_Created_when_valid_request() throws Exception {
         NewOpenTextTaskDTO dto = new NewOpenTextTaskDTO("Java é uma linguagem de programação?", 1, 1L);
 
@@ -109,6 +132,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_NotFound_when_course_not_found() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Pergunta válida",
@@ -130,6 +154,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_BadRequest_when_course_not_building() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Pergunta válida",
@@ -152,6 +177,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_Conflict_when_duplicate_statement() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Pergunta duplicada",
@@ -173,6 +199,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_Conflict_when_Duplicate_Options() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Pergunta válida",
@@ -194,6 +221,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_BadRequest_when_invalid_order() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Pergunta válida",
@@ -215,6 +243,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_Conflict_when_wrong_correct_options() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Pergunta válida",
@@ -236,6 +265,40 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "STUDENT")
+    void createSimpleChoice_should_return_Forbidden_for_student() throws Exception {
+        NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
+                "Pergunta válida",
+                1,
+                1L,
+                List.of(
+                        new TaskOptionDTO("Opção 1", true),
+                        new TaskOptionDTO("Opção 2", true)));
+
+        mockMvc.perform(post("/task/new/singlechoice")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void createSimpleChoice_should_return_Unauthorized_without_authentication() throws Exception {
+        NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
+                "Pergunta válida",
+                1,
+                1L,
+                List.of(
+                        new TaskOptionDTO("Opção 1", true),
+                        new TaskOptionDTO("Opção 2", true)));
+
+        mockMvc.perform(post("/task/new/singlechoice")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createSingleChoice_should_return_created_when_valid_request() throws Exception {
         NewSingleChoiceTaskDTO dto = new NewSingleChoiceTaskDTO(
                 "Java é uma linguagem de programação?",
@@ -252,6 +315,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_NotFound_when_course_not_found() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta válida",
@@ -274,6 +338,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_BadRequest_when_course_not_building() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta válida",
@@ -297,6 +362,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_Conflict_when_duplicate_statement() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta duplicada",
@@ -319,6 +385,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_BadRequest_when_invalid_order() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta válida",
@@ -341,6 +408,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_ReturnConflict_when_insufficient_correct_options() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta válida",
@@ -363,6 +431,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_Conflict_when_no_wrong_options() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta inválida",
@@ -385,6 +454,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_Conflict_when_duplicate_options() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Pergunta inválida",
@@ -407,6 +477,42 @@ class TaskControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "STUDENT")
+    void createMultipleChoice_should_return_Forbidden_for_student() throws Exception {
+        NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
+                "Pergunta inválida",
+                1,
+                1L,
+                List.of(
+                        new TaskOptionDTO("Java", true),
+                        new TaskOptionDTO("Java", true),
+                        new TaskOptionDTO("Python", false)));
+
+        mockMvc.perform(post("/task/new/multiplechoice")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void createMultipleChoice_should_return_Unauthorized_without_authentication() throws Exception {
+        NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
+                "Pergunta inválida",
+                1,
+                1L,
+                List.of(
+                        new TaskOptionDTO("Java", true),
+                        new TaskOptionDTO("Java", true),
+                        new TaskOptionDTO("Python", false)));
+
+        mockMvc.perform(post("/task/new/multiplechoice")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "INSTRUCTOR")
     void createMultipleChoice_should_return_Created_when_valid_request() throws Exception {
         NewMultipleChoiceTaskDTO dto = new NewMultipleChoiceTaskDTO(
                 "Quais são linguagens JVM?",
@@ -422,5 +528,4 @@ class TaskControllerTest {
                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated());
     }
-
 }
