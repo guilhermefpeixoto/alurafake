@@ -63,8 +63,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/opentext")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.statusCode").value("400"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.statusCode").value("409"))
                 .andExpect(jsonPath("$.messages[0]").value("Course not in BUILDING status"));
     }
 
@@ -78,8 +78,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/opentext")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("Duplicate statement"));
     }
 
@@ -145,8 +145,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/singlechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.statusCode").value("400"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.statusCode").value("409"))
                 .andExpect(
                         jsonPath("$.messages[0]").value("Only courses with 'BUILDING' status can receive new tasks."));
     }
@@ -167,8 +167,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/singlechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("There is already a task with this statement."));
     }
 
@@ -188,8 +188,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/singlechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("There can be no duplicate options."));
     }
 
@@ -230,8 +230,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/singlechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("There must be exactly 1 correct option."));
     }
 
@@ -290,8 +290,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/multiplechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.statusCode").value("400"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.statusCode").value("409"))
                 .andExpect(
                         jsonPath("$.messages[0]").value("Only courses with 'BUILDING' status can receive new tasks."));
     }
@@ -313,8 +313,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/multiplechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("There is already a task with this statement."));
     }
 
@@ -357,8 +357,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/multiplechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("Must have at least 2 correct options."));
     }
 
@@ -379,8 +379,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/multiplechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("There must be at least 1 wrong option."));
     }
 
@@ -401,8 +401,8 @@ class TaskControllerTest {
         mockMvc.perform(post("/task/new/multiplechoice")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.statusCode").value("409"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.statusCode").value("400"))
                 .andExpect(jsonPath("$.messages[0]").value("There can be no duplicate options."));
     }
 

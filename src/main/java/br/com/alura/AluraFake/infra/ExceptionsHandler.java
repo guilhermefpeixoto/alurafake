@@ -63,16 +63,16 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(CourseNotBuildingException.class)
     public ResponseEntity<RestErrorMessage> courseNotBuildingExceptionHandler(CourseNotBuildingException exception) {
-        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
+        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
     @ExceptionHandler(DuplicateStatementException.class)
     public ResponseEntity<RestErrorMessage> duplicateStatementExceptionHandler(DuplicateStatementException exception) {
-        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(ContinuousSequenceException.class)
@@ -84,25 +84,25 @@ public class ExceptionsHandler {
 
     @ExceptionHandler(DuplicateOptionException.class)
     public ResponseEntity<RestErrorMessage> duplicateOptionExceptionHandler(DuplicateOptionException exception) {
-        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(WrongNumberOfCorrectOptionsException.class)
     public ResponseEntity<RestErrorMessage> wrongNumberOfCorrectOptionsExceptionHandler(
             WrongNumberOfCorrectOptionsException exception) {
-        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(WrongNumberOfWrongOptionsException.class)
     public ResponseEntity<RestErrorMessage> wrongNumberOfWrongOptionsExceptionHandler(
             WrongNumberOfWrongOptionsException exception) {
-        RestErrorMessage errorMessage = new RestErrorMessage("409", exception.getMessage());
+        RestErrorMessage errorMessage = new RestErrorMessage("400", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(CourseMissingTaskTypeException.class)
