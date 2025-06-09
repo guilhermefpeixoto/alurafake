@@ -27,7 +27,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.role = role;
-        this.password = PasswordGeneration.generatePassword();
+        this.password = PasswordGeneration.generateEncodedPassword();
     }
 
     public User(String name, String email, Role role, String password) {
