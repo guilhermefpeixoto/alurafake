@@ -31,10 +31,9 @@ class UserServiceTest {
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
 
         EmailAlreadyRegisteredException exception = assertThrows(
-            EmailAlreadyRegisteredException.class,
-            () -> userService.createUser(user)
-        );
-        
+                EmailAlreadyRegisteredException.class,
+                () -> userService.createUser(user));
+
         assertEquals("This email address is already registered.", exception.getMessage());
         verify(userRepository, never()).save(user);
     }
@@ -62,9 +61,8 @@ class UserServiceTest {
     @Test
     void getAllUsers__should_return_user_list_when_users_exist() {
         List<User> expectedUsers = List.of(
-            new User("User 1", "user1@test.com", Role.STUDENT, null),
-            new User("User 2", "user2@test.com", Role.STUDENT, null)
-        );
+                new User("User 1", "user1@test.com", Role.STUDENT, null),
+                new User("User 2", "user2@test.com", Role.STUDENT, null));
 
         when(userRepository.findAll()).thenReturn(expectedUsers);
 

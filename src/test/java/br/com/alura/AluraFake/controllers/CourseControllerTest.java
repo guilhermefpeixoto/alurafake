@@ -1,6 +1,6 @@
 package br.com.alura.AluraFake.controllers;
 
-import br.com.alura.AluraFake.dtos.NewCourseDTO;
+import br.com.alura.AluraFake.dtos.courses.NewCourseDTO;
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
 import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
 import br.com.alura.AluraFake.models.Course;
@@ -38,28 +38,28 @@ class CourseControllerTest {
     void newCourseDTO__should_return_bad_request_when_email_is_invalid() throws Exception {
 
         NewCourseDTO newCourseDTO = new NewCourseDTO("Java", "Curso de Java", "paulo@alura.com.br");
-        
+
         doThrow(new UserNotFoundException("User not found.")).when(courseService).createCourse(newCourseDTO);
 
         mockMvc.perform(post("/course")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newCourseDTO)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newCourseDTO)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.statusCode").value("404"))
                 .andExpect(jsonPath("$.messages[0]").isNotEmpty());
     }
-
 
     @Test
     void newCourseDTO__should_return_bad_request_when_email_is_no_instructor() throws Exception {
 
         NewCourseDTO newCourseDTO = new NewCourseDTO("Java", "Curso de Java", "paulo@alura.com.br");
 
-        doThrow(new UserNotInstructorException("This user is not an instructor.")).when(courseService).createCourse(newCourseDTO);
+        doThrow(new UserNotInstructorException("This user is not an instructor.")).when(courseService)
+                .createCourse(newCourseDTO);
 
         mockMvc.perform(post("/course")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newCourseDTO)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newCourseDTO)))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.statusCode").value("403"))
                 .andExpect(jsonPath("$.messages[0]").isNotEmpty());
@@ -73,8 +73,8 @@ class CourseControllerTest {
         doReturn(true).when(user).isInstructor();
 
         mockMvc.perform(post("/course")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newCourseDTO)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(newCourseDTO)))
                 .andExpect(status().isCreated());
     }
 
@@ -89,7 +89,7 @@ class CourseControllerTest {
         when(courseService.getAllCourses()).thenReturn(Arrays.asList(java, hibernate, spring));
 
         mockMvc.perform(get("/course")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("Java"))
                 .andExpect(jsonPath("$[0].description").value("Curso de java"))

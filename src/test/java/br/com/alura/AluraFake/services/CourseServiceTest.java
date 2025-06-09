@@ -1,6 +1,6 @@
 package br.com.alura.AluraFake.services;
 
-import br.com.alura.AluraFake.dtos.NewCourseDTO;
+import br.com.alura.AluraFake.dtos.courses.NewCourseDTO;
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
 import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
 import br.com.alura.AluraFake.models.Course;
@@ -41,10 +41,9 @@ class CourseServiceTest {
         when(userRepository.findByEmail(courseDTO.emailInstructor())).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(
-            UserNotFoundException.class,
-            () -> courseService.createCourse(courseDTO)
-        );
-        
+                UserNotFoundException.class,
+                () -> courseService.createCourse(courseDTO));
+
         assertEquals("User not found.", exception.getMessage());
         verify(courseRepository, never()).save(any());
     }
@@ -57,10 +56,9 @@ class CourseServiceTest {
         when(userRepository.findByEmail(courseDTO.emailInstructor())).thenReturn(Optional.of(student));
 
         UserNotInstructorException exception = assertThrows(
-            UserNotInstructorException.class,
-            () -> courseService.createCourse(courseDTO)
-        );
-        
+                UserNotInstructorException.class,
+                () -> courseService.createCourse(courseDTO));
+
         assertEquals("This user is not an instructor.", exception.getMessage());
         verify(courseRepository, never()).save(any());
     }
@@ -69,7 +67,7 @@ class CourseServiceTest {
     void createCourse_should_save_course_when_user_is_instructor() throws Exception {
         NewCourseDTO courseDTO = new NewCourseDTO("Java", "Description", "instructor@alura.com.br");
         User instructor = new User("Instructor", "instructor@alura.com.br", Role.INSTRUCTOR, null);
-    
+
         when(userRepository.findByEmail(courseDTO.emailInstructor())).thenReturn(Optional.of(instructor));
 
         courseService.createCourse(courseDTO);
@@ -92,7 +90,7 @@ class CourseServiceTest {
         User instructor = new User("Instructor", "instructor@alura.com.br", Role.INSTRUCTOR, null);
         Course course1 = new Course("Java", "Description", instructor);
         Course course2 = new Course("Spring Boot", "Description", instructor);
-        
+
         when(courseRepository.findAll()).thenReturn(List.of(course1, course2));
 
         List<Course> result = courseService.getAllCourses();
