@@ -22,7 +22,7 @@ import br.com.alura.AluraFake.exceptions.WrongNumberOfWrongOptionsException;
 import java.util.List;
 
 @ControllerAdvice
-public class ValidationExceptionHandler {
+public class ExceptionsHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestErrorMessage> methodArgumentNotValidHandler(MethodArgumentNotValidException exception) {
