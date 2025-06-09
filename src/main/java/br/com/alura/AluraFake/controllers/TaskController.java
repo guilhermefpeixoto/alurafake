@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.TaskResponseDTO;
@@ -40,7 +40,7 @@ public class TaskController {
 
     @Transactional
     @PostMapping("/multiplechoice")
-    public ResponseEntity<String> newMultipleChoice(@RequestBody @Valid NewMultipleChoiceDTO newMultipleChoiceDTO) {
+    public ResponseEntity<String> newMultipleChoice(@RequestBody @Valid NewMultipleChoiceTaskDTO newMultipleChoiceDTO) {
         this.taskService.createMultipleChoiceTask(newMultipleChoiceDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -15,7 +15,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public void createUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (this.userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyRegisteredException("This email address is already registered.");
         }
 

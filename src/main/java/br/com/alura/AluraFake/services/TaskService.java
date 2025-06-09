@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceDTO;
+import br.com.alura.AluraFake.dtos.tasks.NewMultipleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.TaskOptionDTO;
@@ -59,7 +59,7 @@ public class TaskService {
 
     }
 
-    public void createMultipleChoiceTask(NewMultipleChoiceDTO newMultipleChoiceDTO) {
+    public void createMultipleChoiceTask(NewMultipleChoiceTaskDTO newMultipleChoiceDTO) {
         Course course = this.getValidatedCourse(newMultipleChoiceDTO.courseId());
         this.validateStatement(newMultipleChoiceDTO.statement(), course.getId());
         this.validateMultipleChoiceOptions(newMultipleChoiceDTO.statement(), newMultipleChoiceDTO.options());
@@ -87,13 +87,13 @@ public class TaskService {
         Optional<Course> possibleCourse = this.courseRepository.findById(courseId);
 
         if (possibleCourse.isEmpty()) {
-            throw new CourseNotFoundException("Course not found");
+            throw new CourseNotFoundException("Course not found.");
         }
 
         Course course = possibleCourse.get();
 
         if (course.getStatus() != Status.BUILDING) {
-            throw new CourseNotBuildingException("Only courses with 'BUILDING' status can receive new tasks");
+            throw new CourseNotBuildingException("Only courses with 'BUILDING' status can receive new tasks.");
         }
 
         return course;

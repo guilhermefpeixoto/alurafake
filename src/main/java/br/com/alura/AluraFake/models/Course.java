@@ -20,12 +20,11 @@ public class Course {
     private Status status;
     private LocalDateTime publishedAt;
 
-    @Deprecated
     public Course() {
     }
 
     public Course(String title, String description, User instructor) {
-        Assert.isTrue(instructor.isInstructor(), "user must be an instructor.");
+        Assert.isTrue(instructor.isInstructor(), "User must be an instructor.");
         this.title = title;
         this.instructor = instructor;
         this.description = description;
