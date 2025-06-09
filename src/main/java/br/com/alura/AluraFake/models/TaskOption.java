@@ -24,6 +24,8 @@ public class TaskOption {
     @ManyToOne
     private Task task;
 
+    public TaskOption(){}
+
     public TaskOption(String option, boolean isCorrect, Task task) {
         this.option = option;
         this.isCorrect = isCorrect;

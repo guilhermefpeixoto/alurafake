@@ -33,11 +33,10 @@ public class Task {
 
     public Task() {}
     
-    public Task(String statement, Integer order, Type type, List<TaskOption> options, Course course) {
+    public Task(String statement, Integer order, Type type, Course course) {
         this.statement = statement;
         this.order = order;
         this.type = type;
-        this.options = options;
         this.course = course;
     }
 
