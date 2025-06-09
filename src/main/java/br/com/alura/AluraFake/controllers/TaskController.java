@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.alura.AluraFake.dtos.NewOpenTextTaskDTO;
+import br.com.alura.AluraFake.dtos.NewSingleChoiceTaskDTO;
+import br.com.alura.AluraFake.dtos.TaskResponseDTO;
 import br.com.alura.AluraFake.models.Task;
 import br.com.alura.AluraFake.services.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
@@ -32,8 +33,10 @@ public class TaskController {
 
     @Transactional
     @PostMapping("/singlechoice")
-    public ResponseEntity<String> newSingleChoice() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> newSingleChoice(@RequestBody @Valid NewSingleChoiceTaskDTO newSingleChoiceTaskDTO) throws Exception {
+        this.taskService.createSingleChoiceTask(newSingleChoiceTaskDTO);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Transactional
@@ -43,8 +46,8 @@ public class TaskController {
     }
 
     @GetMapping("/opentext/{courseId}")
-    public ResponseEntity<List<Task>> getAllCourseTasks(@PathVariable Long courseId) {
-        List<Task> allTasks = this.taskService.getAllTasks(courseId);
+    public ResponseEntity<List<TaskResponseDTO>> getAllCourseTasks(@PathVariable Long courseId) {
+        List<TaskResponseDTO> allTasks = this.taskService.getAllTasks(courseId);
 
         return ResponseEntity.ok().body(allTasks);
     }
