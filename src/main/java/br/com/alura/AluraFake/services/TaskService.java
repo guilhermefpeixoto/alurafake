@@ -106,7 +106,7 @@ public class TaskService {
     }
 
     private void validateTaskOrder(Integer order, Course course) {
-        List<Task> tasks = taskRepository.findByCourseId(course.getId());
+        List<Task> tasks = taskRepository.findByCourseIdOrderByOrderAsc(course.getId());
 
         if (order > tasks.size() + 1) {
             throw new ContinuousSequenceException("The order of tasks must be continuous.");

@@ -59,7 +59,7 @@ public class CourseService {
     public void publishCourse(Long courseId) {
         Course course = this.getValidatedCourse(courseId);
 
-        List<Task> courseTasks = this.taskRepository.findByCourseId(course.getId());
+        List<Task> courseTasks = this.taskRepository.findByCourseIdOrderByOrderAsc(course.getId());
 
         this.validateTasks(courseTasks);
         course.setStatus(Status.PUBLISHED);
