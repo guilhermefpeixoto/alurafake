@@ -27,7 +27,8 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (!"dev".equals(activeProfile)) return;
+        if (!"dev".equals(activeProfile))
+            return;
 
         if (userRepository.count() == 0) {
             User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT);

@@ -27,7 +27,7 @@ public class UserService {
             String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
         }
-        
+
         this.saveUser(user);
     }
 

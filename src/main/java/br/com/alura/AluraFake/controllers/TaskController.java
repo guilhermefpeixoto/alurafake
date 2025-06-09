@@ -46,7 +46,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/opentext/{courseId}")
+    @GetMapping("/opentext/{courseId}") // Endpoint criado para visualizar como as Tasks estavam sendo criadas. Utilizado apenas para testes no Insomnia.
     public ResponseEntity<List<TaskResponseDTO>> getAllCourseTasks(@PathVariable Long courseId) {
         List<TaskResponseDTO> allTasks = this.taskService.getAllTasks(courseId);
 

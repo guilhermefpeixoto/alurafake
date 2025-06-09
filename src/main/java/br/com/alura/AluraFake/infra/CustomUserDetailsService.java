@@ -1,6 +1,5 @@
 package br.com.alura.AluraFake.infra;
 
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
