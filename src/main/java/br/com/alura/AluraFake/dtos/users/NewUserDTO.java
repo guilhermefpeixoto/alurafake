@@ -2,7 +2,7 @@ package br.com.alura.AluraFake.dtos.users;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.com.alura.AluraFake.models.Role;
+import br.com.alura.AluraFake.models.users.Role;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

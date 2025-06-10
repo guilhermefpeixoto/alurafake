@@ -3,8 +3,8 @@ package br.com.alura.AluraFake.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.alura.AluraFake.dtos.users.NewUserDTO;
 import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
-import br.com.alura.AluraFake.models.Role;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.users.Role;
+import br.com.alura.AluraFake.models.users.User;
 import br.com.alura.AluraFake.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@Import(br.com.alura.AluraFake.infra.SecurityConfig.class)
+@Import(br.com.alura.AluraFake.infra.security.SecurityConfig.class)
 class UserControllerTest {
 
     @Autowired
@@ -35,7 +35,7 @@ class UserControllerTest {
     private UserService userService;
 
     @MockBean
-    private br.com.alura.AluraFake.infra.CustomUserDetailsService customUserDetailsService;
+    private br.com.alura.AluraFake.infra.security.CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private ObjectMapper objectMapper;

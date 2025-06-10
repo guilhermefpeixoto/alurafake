@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.users.User;
 import br.com.alura.AluraFake.repositories.UserRepository;
 
 @Service

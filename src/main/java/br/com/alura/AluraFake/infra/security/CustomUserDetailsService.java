@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.infra;
+package br.com.alura.AluraFake.infra.security;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.users.User;
 import br.com.alura.AluraFake.repositories.UserRepository;
 
 @Service

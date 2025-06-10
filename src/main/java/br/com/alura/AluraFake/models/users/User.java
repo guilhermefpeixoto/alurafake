@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.models;
+package br.com.alura.AluraFake.models.users;
 
 import jakarta.persistence.*;
 

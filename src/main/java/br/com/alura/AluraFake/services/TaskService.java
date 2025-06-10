@@ -21,10 +21,10 @@ import br.com.alura.AluraFake.exceptions.WrongNumberOfCorrectOptionsException;
 import br.com.alura.AluraFake.exceptions.WrongNumberOfWrongOptionsException;
 import br.com.alura.AluraFake.mappers.TaskMapper;
 import br.com.alura.AluraFake.mappers.TaskOptionMapper;
-import br.com.alura.AluraFake.models.Course;
-import br.com.alura.AluraFake.models.Status;
-import br.com.alura.AluraFake.models.Task;
-import br.com.alura.AluraFake.models.TaskOption;
+import br.com.alura.AluraFake.models.courses.Course;
+import br.com.alura.AluraFake.models.courses.Status;
+import br.com.alura.AluraFake.models.tasks.Task;
+import br.com.alura.AluraFake.models.tasks.TaskOption;
 import br.com.alura.AluraFake.repositories.CourseRepository;
 import br.com.alura.AluraFake.repositories.TaskRepository;
 
@@ -36,7 +36,7 @@ public class TaskService {
 
     @Autowired
     private CourseRepository courseRepository;
-
+    
     public void createOpenTextExercise(NewOpenTextTaskDTO newOpenTextTaskDTO) {
         Course course = this.getValidatedCourse(newOpenTextTaskDTO.courseId());
         this.validateStatement(newOpenTextTaskDTO.statement(), course.getId());

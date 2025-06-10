@@ -1,8 +1,8 @@
 package br.com.alura.AluraFake.services;
 
 import br.com.alura.AluraFake.exceptions.EmailAlreadyRegisteredException;
-import br.com.alura.AluraFake.models.Role;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.users.Role;
+import br.com.alura.AluraFake.models.users.User;
 import br.com.alura.AluraFake.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

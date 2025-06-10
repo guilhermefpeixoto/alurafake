@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import br.com.alura.AluraFake.models.Role;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.users.Role;
+import br.com.alura.AluraFake.models.users.User;
 
 import java.util.Optional;
 

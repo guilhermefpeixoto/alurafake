@@ -3,7 +3,7 @@ package br.com.alura.AluraFake.dtos.tasks;
 import java.io.Serializable;
 import java.util.List;
 
-import br.com.alura.AluraFake.models.Type;
+import br.com.alura.AluraFake.models.tasks.Type;
 
 public record TaskResponseDTO(
         String statement,

@@ -1,8 +1,9 @@
-package br.com.alura.AluraFake.models;
+package br.com.alura.AluraFake.models.tasks;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.com.alura.AluraFake.models.courses.Course;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

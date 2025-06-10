@@ -4,8 +4,8 @@ import java.util.List;
 
 import br.com.alura.AluraFake.dtos.tasks.TaskOptionDTO;
 import br.com.alura.AluraFake.dtos.tasks.TaskOptionResponseDTO;
-import br.com.alura.AluraFake.models.Task;
-import br.com.alura.AluraFake.models.TaskOption;
+import br.com.alura.AluraFake.models.tasks.Task;
+import br.com.alura.AluraFake.models.tasks.TaskOption;
 
 public class TaskOptionMapper {
 

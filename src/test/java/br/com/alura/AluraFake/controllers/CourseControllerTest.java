@@ -3,9 +3,9 @@ package br.com.alura.AluraFake.controllers;
 import br.com.alura.AluraFake.dtos.courses.NewCourseDTO;
 import br.com.alura.AluraFake.exceptions.UserNotFoundException;
 import br.com.alura.AluraFake.exceptions.UserNotInstructorException;
-import br.com.alura.AluraFake.models.Course;
-import br.com.alura.AluraFake.models.Role;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.courses.Course;
+import br.com.alura.AluraFake.models.users.Role;
+import br.com.alura.AluraFake.models.users.User;
 import br.com.alura.AluraFake.services.CourseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CourseController.class)
-@Import(br.com.alura.AluraFake.infra.SecurityConfig.class)
+@Import(br.com.alura.AluraFake.infra.security.SecurityConfig.class)
 class CourseControllerTest {
 
     @Autowired

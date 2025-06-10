@@ -7,9 +7,9 @@ import br.com.alura.AluraFake.dtos.tasks.NewOpenTextTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.NewSingleChoiceTaskDTO;
 import br.com.alura.AluraFake.dtos.tasks.TaskOptionResponseDTO;
 import br.com.alura.AluraFake.dtos.tasks.TaskResponseDTO;
-import br.com.alura.AluraFake.models.Course;
-import br.com.alura.AluraFake.models.Task;
-import br.com.alura.AluraFake.models.Type;
+import br.com.alura.AluraFake.models.courses.Course;
+import br.com.alura.AluraFake.models.tasks.Task;
+import br.com.alura.AluraFake.models.tasks.Type;
 
 public class TaskMapper {
     public static Task toEntity(NewOpenTextTaskDTO openTextTaskDTO, Course course) {

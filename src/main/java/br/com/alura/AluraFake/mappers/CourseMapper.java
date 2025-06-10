@@ -2,8 +2,8 @@ package br.com.alura.AluraFake.mappers;
 
 import br.com.alura.AluraFake.dtos.courses.CourseResponseDTO;
 import br.com.alura.AluraFake.dtos.courses.NewCourseDTO;
-import br.com.alura.AluraFake.models.Course;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.courses.Course;
+import br.com.alura.AluraFake.models.users.User;
 
 public class CourseMapper {
     public static Course toEntity(NewCourseDTO courseDTO, User instructor) {

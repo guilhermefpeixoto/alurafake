@@ -1,8 +1,8 @@
 package br.com.alura.AluraFake.infra;
 
-import br.com.alura.AluraFake.models.Course;
-import br.com.alura.AluraFake.models.Role;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.courses.Course;
+import br.com.alura.AluraFake.models.users.Role;
+import br.com.alura.AluraFake.models.users.User;
 import br.com.alura.AluraFake.repositories.CourseRepository;
 import br.com.alura.AluraFake.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;

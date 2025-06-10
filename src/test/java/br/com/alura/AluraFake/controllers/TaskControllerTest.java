@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TaskController.class)
-@Import(br.com.alura.AluraFake.infra.SecurityConfig.class)
+@Import(br.com.alura.AluraFake.infra.security.SecurityConfig.class)
 class TaskControllerTest {
 
     @Autowired

@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.infra;
+package br.com.alura.AluraFake.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

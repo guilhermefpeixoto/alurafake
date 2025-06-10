@@ -2,7 +2,7 @@ package br.com.alura.AluraFake.mappers;
 
 import br.com.alura.AluraFake.dtos.users.NewUserDTO;
 import br.com.alura.AluraFake.dtos.users.UserResponseDTO;
-import br.com.alura.AluraFake.models.User;
+import br.com.alura.AluraFake.models.users.User;
 
 public class UserMapper {
 

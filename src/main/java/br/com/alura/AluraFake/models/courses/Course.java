@@ -1,7 +1,9 @@
-package br.com.alura.AluraFake.models;
+package br.com.alura.AluraFake.models.courses;
 
 import jakarta.persistence.*;
 import org.springframework.util.Assert;
+
+import br.com.alura.AluraFake.models.users.User;
 
 import java.time.LocalDateTime;
 
