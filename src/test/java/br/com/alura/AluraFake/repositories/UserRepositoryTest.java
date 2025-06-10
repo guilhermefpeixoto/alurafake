@@ -21,24 +21,24 @@ class UserRepositoryTest {
 
     @Test
     void findByEmail__should_return_existis_user() {
-        User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT);
+        User caio = new User("Etevaldo", "etevaldo@gmail.com", Role.STUDENT);
         userRepository.save(caio);
 
-        Optional<User> result = userRepository.findByEmail("caio@alura.com.br");
+        Optional<User> result = userRepository.findByEmail("etevaldo@gmail.com");
         assertThat(result).isPresent();
-        assertThat(result.get().getName()).isEqualTo("Caio");
+        assertThat(result.get().getName()).isEqualTo("Etevaldo");
 
-        result = userRepository.findByEmail("sergio@alura.com.br");
+        result = userRepository.findByEmail("jemerson@alura.com.br");
         assertThat(result).isEmpty();
     }
 
     @Test
     void existsByEmail__should_return_true_when_user_existis() {
-        User caio = new User("Caio", "caio@alura.com.br", Role.STUDENT);
+        User caio = new User("Jurema", "jurema@gmail.com", Role.STUDENT);
         userRepository.save(caio);
 
-        assertThat(userRepository.existsByEmail("caio@alura.com.br")).isTrue();
-        assertThat(userRepository.existsByEmail("sergio@alura.com.br")).isFalse();
+        assertThat(userRepository.existsByEmail("jurema@gmail.com")).isTrue();
+        assertThat(userRepository.existsByEmail("marivaldo@gmail.com")).isFalse();
     }
 
 }

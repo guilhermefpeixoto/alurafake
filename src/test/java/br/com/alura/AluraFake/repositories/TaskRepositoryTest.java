@@ -34,7 +34,7 @@ class TaskRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        User instructor = new User("Paulo Silveira", "paulo@alura.com.br", Role.INSTRUCTOR, "123456");
+        User instructor = new User("Johansson", "johansson@gmail.com", Role.INSTRUCTOR, "123456");
         userRepository.save(instructor);
 
         course1 = new Course("Java OO", "Curso de Java Orientado a Objetos", instructor);
