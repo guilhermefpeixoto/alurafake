@@ -14,8 +14,8 @@ O projeto é parte do processo seletivo da Alura. Trata-se de uma API que é uma
 
 ## ⚙️ Tecnologias e Bibliotecas Utilizadas
 
-- Java 21
-- Spring Boot 3.3.3
+- Java 21+
+- Spring Boot
 - **Spring Boot Starters:**
   - `spring-boot-starter-web`
   - `spring-boot-starter-data-jpa`
