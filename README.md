@@ -61,7 +61,7 @@ mvn spring-boot:run
 ```
 
 ## 🧪 Como Rodar os Testes
-Para executar os testes automatizados, utilize:
+Para executar os testes automatizados, configure o `application-test.properties` da mesma forma que o `application.properties`e rode:
 ```bash
 mvn test
 ```
