@@ -21,7 +21,7 @@ O projeto é parte do processo seletivo da Alura. Trata-se de uma API que é uma
   - `spring-boot-starter-data-jpa`
   - `spring-boot-starter-validation`
   - `spring-boot-starter-security`
-- **Validação:** `jakarta.validation-api
+- **Validação:** `jakarta.validation-api`
 - **Persistência e Banco de Dados:**
   - MySQL (via `mysql-connector-j`)
   - Flyway (`flyway-core`, `flyway-mysql`)
